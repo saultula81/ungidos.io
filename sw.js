@@ -2,11 +2,11 @@
 const CACHE_NAME = 'ungidos-del-rey-de-reyes-cache-v1';
 const urlsToCache = [
     '/',
-    '/index.html.html',
-    '/manifest.json',
-    '/style.css',
-    '/script.js',
-    '/assets/icons',
+    '/saultula81.github.io/index.html',
+    '/saultula81.github.io/manifest.json',
+    '/saultula81.github.io/style.css',
+    '/saultula81.github.io/script.js',
+    '/saultula81.github.io/assets/icons',
     // Agrega otros archivos que desees almacenar en caché
 ];
 
