@@ -1,0 +1,589 @@
+<html><head><base href="Ungidos del Rey de Reyes">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4CAF50">
+    <title>UNGIDOS DEL REY DE REYES</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="/style.css">
+    <script src="scripts.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --text-color: #ffffff;
+            --bg-color: #1a1a1a;
+            --secondary-bg: #2a2a2a;
+        }
+
+        [data-theme="light"] {
+            --primary-color: #4CAF50;
+            --text-color: #333333;
+            --bg-color: #ffffff;
+            --secondary-bg: #f5f5f5;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: var(--bg-color);
+            font-family: Arial, sans-serif;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(
+                    rgba(255,255,255,0.03) 1px, 
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.03) 1px, 
+                    transparent 1px
+                );
+            background-size: 20px 20px;
+            pointer-events: none;
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at 50% 50%,
+                rgba(255,255,255,0.1) 0%,
+                rgba(0,0,0,0.1) 100%
+            );
+            pointer-events: none;
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-content h1 {
+            margin: 0 auto;
+            font-size: 1.8rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3),
+                         0px 4px 8px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, var(--text-color), rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .main-content {
+            margin-top: 80px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .player-container {
+            background: var(--secondary-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.2),
+                        -12px -12px 24px rgba(255, 255, 255, 0.05);
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .controls {
+            margin: 20px 0;
+        }
+
+        .play-button {
+            background: var(--secondary-bg);
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text-color);
+            box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2),
+                        -6px -6px 12px rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .play-button:active {
+            box-shadow: inset 6px 6px 12px rgba(0, 0, 0, 0.2),
+                        inset -6px -6px 12px rgba(255, 255, 255, 0.05);
+        }
+
+        .volume-controls {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            width: 120px;
+            height: 6px;
+            background: var(--secondary-bg);
+            border-radius: 3px;
+            box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.2),
+                        inset -4px -4px 8px rgba(255, 255, 255, 0.05);
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2),
+                        -4px -4px 8px rgba(255, 255, 255, 0.05);
+        }
+
+        .mute-button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .share-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 15px auto;
+        }
+
+        .install-button {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(145deg, var(--primary-color), #45a049);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2),
+                        -6px -6px 12px rgba(255, 255, 255, 0.05),
+                        inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .install-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.3),
+                        -8px -8px 16px rgba(255, 255, 255, 0.1),
+                        inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .install-button:active {
+            transform: translateY(0);
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2),
+                        -4px -4px 8px rgba(255, 255, 255, 0.05),
+                        inset 1px 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .offline-message {
+            display: none;
+            background: rgba(255,0,0,0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .visualizer {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+            height: 60px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2),
+                        inset -2px -2px 5px rgba(255,255,255,0.05);
+        }
+
+        .bar {
+            width: 4px;
+            height: 10px;
+            background: linear-gradient(to top, var(--primary-color), rgba(76, 175, 80, 0.5));
+            border-radius: 2px;
+            transition: height 0.1s ease;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+            position: relative;
+        }
+
+        .bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, transparent, rgba(255,255,255,0.4));
+            border-radius: 2px;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            text-decoration: none;
+            color: var(--text-color);
+            background: var(--secondary-bg);
+            box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.2),
+                        -8px -8px 16px rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .social-button:active {
+            box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.2),
+                        inset -4px -4px 8px rgba(255, 255, 255, 0.05);
+        }
+
+        .social-button svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .social-button.facebook {
+            color: #1877f2;
+        }
+
+        .social-button.youtube {
+            color: #ff0000;
+        }
+
+        .social-button.instagram {
+            color: #e4405f;
+        }
+
+        .social-button.whatsapp {
+            color: #25D366;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-top: 120px;
+                padding: 10px;
+            }
+
+            .player-container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+
+            .nav-content h1 {
+                font-size: 1.4rem;
+            }
+
+            .social-buttons {
+                gap: 15px;
+            }
+
+            .social-button {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .volume-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .volume-slider {
+                width: 100%;
+            }
+
+            .visualizer {
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<button id="notify-button">Activar Notificaciones</button>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1>UNGIDOS DEL REY DE REYES</h1>
+            <button class="theme-toggle" id="themeToggle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 15.31L23.31 12 20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69zM12 18V6c6.48 0 10 3.52 10 6s-3.52 6-10 6z"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="player-container">
+            <div class="visualizer" id="visualizer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div class="controls">
+                <button class="play-button" id="playButton">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="volume-controls">
+                <button class="mute-button" id="muteButton">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                </button>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+            </div>
+
+            <button class="share-button" id="installButton" style="display: none;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+                Instalar App
+            </button>
+
+            <div class="offline-message" id="offlineMessage">
+                Estás en modo sin conexión. Algunas funciones pueden no estar disponibles.
+            </div>
+        </div>
+
+        <div class="social-buttons">
+            <a href="https://www.facebook.com/profile.php?id=61555977376300" class="social-button facebook" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/>
+                </svg>
+            </a>
+            <a href="https://www.youtube.com/@UngidosdelReydeReyes" class="social-button youtube" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21.6 7.2c-.2-.8-.8-1.4-1.6-1.6C18.5 5 12 5 12 5s-6.5 0-8 .6c-.8.2-1.4.8-1.6 1.6C2 8.8 2 12 2 12s0 3.2.4 4.8c.2.8.8 1.4 1.6 1.6 1.5.6 8 .6 8 .6s6.5 0 8-.6c.8-.2 1.4-.8 1.6-1.6.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3-5.2 3z"/>
+                </svg>
+            </a>
+            <a href="https://www.instagram.com/ungidosdelreyde/" class="social-button instagram" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+            </a>
+            <a href="https://wa.me/1123006071" class="social-button whatsapp" target="_blank">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.098.54 4.07 1.493 5.784L.036 23.97l6.445-1.432C8.295 23.472 10.1 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zM8.048 6.92c.252-.118.576-.066.82.18l1.436 1.436c.248.248.296.576.18.82l-.716 1.432c-.118.252-.066.576.18.82l2.16 2.16c.248.248.576.296.82.18l1.432-.716c.252-.118.576-.066.82.18l1.436 1.436c.248.248.296.576.18.82l-1.432 2.864c-.118.252-.36.428-.644.428-3.604 0-6.932-3.328-6.932-6.932 0-.284.176-.526.428-.644l2.864-1.432z"/>
+                </svg>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        const audio = new Audio('https://stream.zeno.fm/7nnbnqmqnf8vv');
+        const playButton = document.getElementById('playButton');
+        const bars = document.querySelectorAll('.bar');
+        const themeToggle = document.getElementById('themeToggle');
+
+        let isPlaying = false;
+
+        playButton.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playButton.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+                stopVisualization();
+            } else {
+                audio.play();
+                playButton.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                startVisualization();
+            }
+            isPlaying = !isPlaying;
+        });
+
+        themeToggle.addEventListener('click', () => {
+            document.body.dataset.theme = document.body.dataset.theme === 'light' ? '' : 'light';
+        });
+
+        function startVisualization() {
+            bars.forEach((bar, index) => {
+                const randomDelay = Math.random() * 1000;
+                const baseHeight = 15 + Math.random() * 25;
+                
+                const animation = bar.animate([
+                    { height: '5px', opacity: 0.5 },
+                    { height: baseHeight + 'px', opacity: 1 },
+                    { height: '5px', opacity: 0.5 }
+                ], {
+                    duration: 1000 + Math.random() * 800,
+                    delay: randomDelay,
+                    iterations: Infinity,
+                    direction: 'alternate',
+                    easing: 'ease-in-out'
+                });
+            });
+        }
+
+        function stopVisualization() {
+            bars.forEach(bar => {
+                const animations = bar.getAnimations();
+                animations.forEach(animation => animation.cancel());
+                bar.style.height = '10px';
+            });
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // Volume and mute controls
+        const volumeSlider = document.getElementById('volumeSlider');
+        const muteButton = document.getElementById('muteButton');
+        let isMuted = false;
+
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+            updateMuteButton();
+        });
+
+        muteButton.addEventListener('click', () => {
+            isMuted = !isMuted;
+            audio.muted = isMuted;
+            updateMuteButton();
+        });
+
+        function updateMuteButton() {
+            if (isMuted || audio.volume === 0) {
+                muteButton.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>';
+            } else {
+                muteButton.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
+            }
+        }
+
+        // Install PWA
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'flex';
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            const result = await deferredPrompt.prompt();
+            console.log(`Install prompt result: ${result.outcome}`);
+            deferredPrompt = null;
+            installButton.style.display = 'none';
+        });
+
+        // Offline functionality
+        const offlineMessage = document.getElementById('offlineMessage');
+        window.addEventListener('online', () => {
+            offlineMessage.style.display = 'none';
+        });
+
+        window.addEventListener('offline', () => {
+            offlineMessage.style.display = 'block';
+        });
+    </script>
+   
+
+
+</body></html>
