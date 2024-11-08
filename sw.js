@@ -2,10 +2,10 @@
 const CACHE_NAME = 'ungidos-del-rey-de-reyes-cache-v1';
 const urlsToCache = [
     '/',
-      /manifest.json',
-    /style.css',
-   /script.js',
-   /assets/icons',
+     /ungidos/manifest.json',
+    /ungidos/style.css',
+   /ungidos/script.js',
+   /ungidos/assets/icons',
     
     // Agrega otros archivos que desees almacenar en caché
 ];
